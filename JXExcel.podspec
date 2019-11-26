@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "JXExcel"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
   s.summary      = "一个轻量级的表视图"
   s.homepage     = "https://github.com/pujiaxin33/JXExcel"
   s.license      = "MIT"
