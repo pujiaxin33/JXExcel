@@ -40,15 +40,15 @@ extension ViewController: ExcelViewDataSource {
     }
 
     func excelView(_ excelView: ExcelView, rowNameAt row: Int) -> String {
-        return "row:\(row) 测试文本测试文本测试文本"
+        return "row:\(row) 测试文本"
     }
 
     func excelView(_ excelView: ExcelView, columnNameAt column: Int) -> String {
-        return "col:\(column) 测试文本测试文本测试文本测试文本"
+        return "col:\(column) 测试文本"
     }
 
     func excelView(_ excelView: ExcelView, rowDatasAt row: Int) -> [String] {
-        return ["r:\(row) 0 测试文本测试文本", "r:\(row) 1 测试文本测试文本", "r:\(row) 2 测试文本测试文本", "r:\(row) 3 测试文本测试文本", "r:\(row) 4 测试文本测试文本", "r:\(row) 5 测试文本测试文本", "r:\(row) 6 测试文本测试文本", "r:\(row) 7 测试文本测试文本", "r:\(row) 8 测试文本测试文本", "r:\(row) 9 测试文本测试文本", ]
+        return ["r:\(row) 0 测试文本", "r:\(row) 1 测试文本", "r:\(row) 2 测试文本", "r:\(row) 3 测试文本", "r:\(row) 4 测试文本", "r:\(row) 5 测试文本", "r:\(row) 6 测试文本", "r:\(row) 7 测试文本", "r:\(row) 8 测试文本", "r:\(row) 9 测试文本", ]
     }
 
     func excelView(_ excelView: ExcelView, rowHeightAt row: Int) -> CGFloat {

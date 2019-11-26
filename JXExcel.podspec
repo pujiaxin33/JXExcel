@@ -11,7 +11,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/pujiaxin33/JXExcel.git", :tag => "#{s.version}" }
   s.framework    = "UIKit"
   s.source_files  = "Sources", "Sources/*.{swift}"
-  s.resource = 'Resources/Resource.bundle'
   s.requires_arc = true
  
 end
