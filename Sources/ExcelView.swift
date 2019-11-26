@@ -8,21 +8,22 @@
 
 import UIKit
 
-public protocol ExcelViewDataSource: AnyObject {
+@objc public protocol ExcelViewDataSource: NSObjectProtocol {
     func numberOfRows(in excelView: ExcelView) -> Int
     func numberOfColumns(in excelView: ExcelView) -> Int
-    func excelView(_ excelView: ExcelView, rowNameAt row: Int) -> String
     func excelView(_ excelView: ExcelView, columnNameAt column: Int) -> String
-    func excelView(_ excelView: ExcelView, rowDatasAt row: Int) -> [String]
+    func excelView(_ excelView: ExcelView, rowDataAt row: Int) -> [String]
     func excelView(_ excelView: ExcelView, rowHeightAt row: Int) -> CGFloat
     func excelView(_ excelView: ExcelView, columnWidthAt column: Int) -> CGFloat
     func widthOfLeftHeader(in excelView: ExcelView) -> CGFloat
     func heightOfTopHeader(in excelView: ExcelView) -> CGFloat
+
+    @objc optional func excelView(_ excelView: ExcelView, rowNameAt row: Int) -> String
 }
 
-public protocol ExcelViewDelegate: AnyObject {
-    func excelView(_ excelView: ExcelView, didTapGridWith content: String)
-    func excelView(_ excelView: ExcelView, didTapColumnNameWith name: String)
+@objc public protocol ExcelViewDelegate: NSObjectProtocol {
+    @objc optional func excelView(_ excelView: ExcelView, didTapGridWith content: String)
+    @objc optional func excelView(_ excelView: ExcelView, didTapColumnHeaderWith name: String)
 }
 
 open class ExcelView: UIView {
@@ -175,7 +176,7 @@ open class ExcelView: UIView {
         let point = tap.location(in: topHeaderScrollView)
         for (index, label) in columnNameLabels.enumerated() {
             if label.frame.contains(point) {
-                delegate?.excelView(self, didTapColumnNameWith: dataSource.excelView(self, columnNameAt: index))
+                delegate?.excelView?(self, didTapColumnHeaderWith: dataSource.excelView(self, columnNameAt: index))
                 break
             }
         }
@@ -203,16 +204,20 @@ extension ExcelView: UITableViewDataSource {
         if tableView == leftHeaderTableView {
             cell = tableView.dequeueReusableCell(withIdentifier: "leftHeaderCell", for: indexPath)
             let headerCell = cell as! LeftHeaderCell
-            headerCell.titleLabel.text = "\(indexPath.row)"
+            if let rowName = dataSource.excelView?(self, rowNameAt: indexPath.row) {
+                headerCell.titleLabel.text = rowName
+            }else {
+                headerCell.titleLabel.text = "\(indexPath.row)"
+            }
         }else if tableView == contentTableView {
             cell = tableView.dequeueReusableCell(withIdentifier: ContentCell.cellIdentifier(columnCount: dataSource.numberOfColumns(in: self)))
             if cell == nil {
                 cell = ContentCell(columnCount: dataSource.numberOfColumns(in: self))
             }
             let contentCell = cell as! ContentCell
-            contentCell.reloadData(rowDatas: dataSource.excelView(self, rowDatasAt: indexPath.row), columnWidths: columnWidths)
+            contentCell.reloadData(rowDatas: dataSource.excelView(self, rowDataAt: indexPath.row), columnWidths: columnWidths)
             contentCell.didTapClosure = {[weak self] (itemContent) in
-                self?.delegate?.excelView(self!, didTapGridWith: itemContent)
+                self?.delegate?.excelView?(self!, didTapGridWith: itemContent)
             }
         }else {
             cell = UITableViewCell(style: .default, reuseIdentifier: "default")

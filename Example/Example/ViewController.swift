@@ -11,16 +11,25 @@ import JXExcel
 
 class ViewController: UIViewController {
     var excel: ExcelView!
+    var dataSource = [[String]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationController?.navigationBar.isTranslucent = false
 
+        for row in 0..<50 {
+            var rowData = [String]()
+            for column in 0..<10 {
+                rowData.append("r:\(row) c:\(column) grid")
+            }
+            dataSource.append(rowData)
+        }
+
         excel = ExcelView(frame: CGRect.zero)
         excel.dataSource = self
         excel.delegate = self
-        view.addSubview(excel);
+        view.addSubview(excel)
     }
 
     override func viewDidLayoutSubviews() {
@@ -39,16 +48,12 @@ extension ViewController: ExcelViewDataSource {
         return 10
     }
 
-    func excelView(_ excelView: ExcelView, rowNameAt row: Int) -> String {
-        return "row:\(row) 测试文本"
-    }
-
     func excelView(_ excelView: ExcelView, columnNameAt column: Int) -> String {
-        return "col:\(column) 测试文本"
+        return "col:\(column)"
     }
 
-    func excelView(_ excelView: ExcelView, rowDatasAt row: Int) -> [String] {
-        return ["r:\(row) 0 测试文本", "r:\(row) 1 测试文本", "r:\(row) 2 测试文本", "r:\(row) 3 测试文本", "r:\(row) 4 测试文本", "r:\(row) 5 测试文本", "r:\(row) 6 测试文本", "r:\(row) 7 测试文本", "r:\(row) 8 测试文本", "r:\(row) 9 测试文本", ]
+    func excelView(_ excelView: ExcelView, rowDataAt row: Int) -> [String] {
+        return dataSource[row]
     }
 
     func excelView(_ excelView: ExcelView, rowHeightAt row: Int) -> CGFloat {
@@ -66,6 +71,10 @@ extension ViewController: ExcelViewDataSource {
     func heightOfTopHeader(in excelView: ExcelView) -> CGFloat {
         return 40
     }
+
+//    func excelView(_ excelView: ExcelView, rowNameAt row: Int) -> String {
+//        return "row:\(row)"
+//    }
 }
 
 extension ViewController: ExcelViewDelegate {
@@ -73,8 +82,8 @@ extension ViewController: ExcelViewDelegate {
         print("didTapGridWith:\(content)")
     }
 
-    func excelView(_ excelView: ExcelView, didTapColumnNameWith name: String) {
-        print("didTapColumnNameWith:\(name)")
+    func excelView(_ excelView: ExcelView, didTapColumnHeaderWith name: String) {
+        print("didTapColumnHeaderWith:\(name)")
     }
 }
 
