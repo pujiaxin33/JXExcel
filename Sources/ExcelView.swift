@@ -33,34 +33,22 @@ open class ExcelView: UIView {
         }
     }
     open weak var delegate: ExcelViewDelegate?
-    let topHeaderScrollView: UIScrollView
-    let topHeaderBottomLine: UIView
-    let topHeaderVerticalLine: UIView
-    let leftHeaderTableView: UITableView
-    let contentScrollView: UIScrollView
-    let contentTableView: UITableView
+    lazy var topHeaderScrollView: UIScrollView = UIScrollView(frame: CGRect.zero)
+    lazy var topHeaderBottomLine: UIView = UIView()
+    lazy var topHeaderVerticalLine: UIView = UIView()
+    lazy var leftHeaderTableView: UITableView = UITableView(frame: CGRect.zero, style: .plain)
+    lazy var contentScrollView: UIScrollView = UIScrollView(frame: CGRect.zero)
+    lazy var contentTableView: UITableView = UITableView(frame: CGRect.zero, style: .plain)
     var contentWidth: CGFloat = 0
     var columnWidths = [CGFloat]()
     var columnNameLabels = [UILabel]()
 
     public override init(frame: CGRect) {
-        topHeaderScrollView = UIScrollView(frame: CGRect.zero)
-        topHeaderBottomLine = UIView()
-        topHeaderVerticalLine = UIView()
-        leftHeaderTableView = UITableView(frame: CGRect.zero, style: .plain)
-        contentScrollView = UIScrollView(frame: CGRect.zero)
-        contentTableView = UITableView(frame: CGRect.zero, style: .plain)
         super.init(frame: frame)
         setupViews()
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        topHeaderScrollView = UIScrollView(frame: CGRect.zero)
-        topHeaderBottomLine = UIView()
-        topHeaderVerticalLine = UIView()
-        leftHeaderTableView = UITableView(frame: CGRect.zero, style: .plain)
-        contentScrollView = UIScrollView(frame: CGRect.zero)
-        contentTableView = UITableView(frame: CGRect.zero, style: .plain)
         super.init(coder: aDecoder)
         setupViews()
     }
